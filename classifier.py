@@ -49,7 +49,8 @@ def save_image(output_path, image_class):
     os.makedirs(os.path.join(output_path, image_class), exist_ok=True)
     # save image
     if st.session_state["selected_image"]:
-        saved_path = os.path.join(output_path, image_class, f"{uuid.uuid4()}.jpg")
+        uuid_str = str(uuid.uuid4())[:6]
+        saved_path = os.path.join(output_path, image_class, f"{uuid_str}.jpg")
         st.session_state["selected_image"].save(saved_path, format="JPEG", quality=95)
 
         st.toast(f"Image saved at {saved_path}")
