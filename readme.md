@@ -2,8 +2,6 @@
 
 This project allows users to manually select images and classify them into user defined categories. Selected images are saved in corresponding folders based on the chosen class.
 
-## Demo
-
 ![demo](demo.png)
 
 ## Requirements
