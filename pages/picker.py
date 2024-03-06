@@ -1,7 +1,8 @@
+import os
+import random
+
 import streamlit as st
 from PIL import Image
-import random
-import os
 
 # Initialize session state variables if not already present
 if "list_of_images" not in st.session_state:
@@ -31,9 +32,7 @@ def display_random_image():
 
 
 st.title("Image Picker")
-st.write(
-    "This is a simple image picker."
-)
+st.write("This is a simple image picker.")
 
 # Input for folder path
 folder_path = st.text_input(
@@ -43,16 +42,17 @@ folder_path = st.text_input(
 if st.button("Load Images"):
     load_images_from_folder()
 
-st.write(f"Number of images: {len(st.session_state['list_of_images'])}")
+if folder_path:
+    st.metric("Left Images", len(st.session_state["list_of_images"]))
 
-# Create like and dislike buttons
-col1, col2 = st.columns(2)
-with col1:
-    if st.button("Like"):
-        display_random_image()
-with col2:
-    if st.button("Dislike"):
-        display_random_image()
+    # Create like and dislike buttons
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Like"):
+            display_random_image()
+    with col2:
+        if st.button("Dislike"):
+            display_random_image()
 
-if st.session_state["selected_image"] is not None:
-    st.image(st.session_state["selected_image"], use_column_width=True)
+    if st.session_state["selected_image"] is not None:
+        st.image(st.session_state["selected_image"], use_column_width=True)
