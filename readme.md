@@ -1,11 +1,31 @@
-# Project Title
+# Image Picker / Manual Image Classifier
 
-![](demo.png)
+This project allows users to manually select images and classify them into user defined categories. Selected images are saved in corresponding folders based on the chosen class.
 
-## Description
+## Demo
 
-A brief description of what this project does and who it's for.
+![demo](demo.png)
 
-## Installation
+## Requirements
 
-Provide step by step series of examples and explanations about how to get a development environment running.
+* Python 3.x
+* Streamlit (`pip install streamlit`)
+* Pillow (`pip install pillow`)
+
+## How to Use
+
+1. Clone this repository or download the files.
+2. Open a terminal in the project directory.
+3. Run the application: `streamlit run classifier.py`
+
+## Disclaimer
+
+This project provides a basic framework for manual image classification. It might require further development depending on your specific use case and desired functionalities.
+
+## Contributing
+
+Contributions to this project are welcome. Please ensure that your code adheres to the project's coding standards and include appropriate unit tests where applicable.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
