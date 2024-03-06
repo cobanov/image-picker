@@ -96,7 +96,6 @@ if folder_path and len(st.session_state["list_of_images"]) > 0:
     col1, col2, col3, col4, col5, col6 = st.columns(6)
 
     if class_labels:
-
         # split labels comma or space
         labels = [label.strip() for label in class_labels.replace(",", " ").split()]
         if len(labels) < 6:
