@@ -6,7 +6,14 @@ import streamlit as st
 loss_fn_alex = lpips.LPIPS(net="alex")  # best forward scores
 
 
-def get_similiraty(img1, img2):
+def load_image(upload):
+    """Convert uploaded file into OpenCV format."""
+    file_bytes = np.asarray(bytearray(upload.read()), dtype=np.uint8)
+    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    return image
+
+
+def get_similarity(img1, img2):
     img1 = lpips.im2tensor(img1)  # RGB image from [-1,1]
     img2 = lpips.im2tensor(img2)
     d = loss_fn_alex(img1, img2)
@@ -14,28 +21,27 @@ def get_similiraty(img1, img2):
 
 
 st.title("Image Similarity Checker")
-st.write("This is a simple image similarity checker.")
+st.write("This tool checks the similarity between two images.")
 
 col1, col2 = st.columns(2)
 
-img1 = col1.file_uploader("First Image", type=["png", "jpg", "jpeg"])
-img2 = col2.file_uploader("Second Image", type=["png", "jpg", "jpeg"])
+img1_upload = col1.file_uploader("Upload the first image", type=["png", "jpg", "jpeg"])
+img2_upload = col2.file_uploader("Upload the second image", type=["png", "jpg", "jpeg"])
 
-if img1 and img2 is not None:
+if img1_upload and img2_upload:
     # Convert the file to an OpenCV image.
-    file_bytes_1 = np.asarray(bytearray(img1.read()), dtype=np.uint8)
-    file_bytes_2 = np.asarray(bytearray(img2.read()), dtype=np.uint8)
-    opencv_image_1 = cv2.imdecode(file_bytes_1, 1)
-    opencv_image_2 = cv2.imdecode(file_bytes_2, 1)
+    img1 = load_image(img1_upload)
+    img2 = load_image(img2_upload)
 
-    height, width = opencv_image_1.shape[:2]
-    resized_second_image = cv2.resize(opencv_image_2, (width, height))
+    img2_resized = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
 
     # Display the image with Streamlit
-    col1.image(opencv_image_1, channels="BGR", caption="Uploaded Image 1")
-    col2.image(resized_second_image, channels="BGR", caption="Uploaded Image 2")
-
-    st.metric("Similarity", get_similiraty(opencv_image_1, resized_second_image))
+    col1.image(img1, use_column_width=True, channels="BGR", caption="Uploaded Image 1")
+    col2.image(
+        img2_resized, use_column_width=True, channels="BGR", caption="Uploaded Image 2"
+    )
+    similarity = get_similarity(img1, img2_resized)
+    st.metric("Similarity", similarity)
     st.info("The lower the similarity score, the better the match.")
 
 
